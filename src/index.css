@@ -1,0 +1,766 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Fonts (Peyda 400, 500, 700, 800)
+   ========================================================================== */
+@font-face {
+  font-family: 'Peyda';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/peyda-400.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/peyda-500.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/peyda-700.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/peyda-800.woff') format('woff');
+}
+
+/* ==========================================================================
+   Theme Tokens & Base Reset
+   ========================================================================== */
+:root {
+  box-sizing: border-box;
+  color-scheme: dark;
+  --main: #1E3E62;
+  --deep: #0B192C;
+  --black: #000000;
+  --accent: #FF6500;
+  --u: clamp(54px, calc(3.2vw + 40px), 112px);
+  --ink: #EEF3F9;
+  --muted: #B7C5D8;
+  --line: rgba(255, 255, 255, 0.14);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  height: 100%;
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--deep);
+  color: var(--ink);
+  font-family: "Peyda", Tahoma, "Segoe UI", sans-serif;
+  line-height: 1.8;
+  padding-bottom: calc(var(--u) * 1.7 + 28px);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 48% at 4% 2%, #000000 0%, rgba(0, 0, 0, 0.85) 28%, transparent 74%),
+    radial-gradient(52% 42% at 104% 102%, #000000 0%, rgba(0, 0, 0, 0.8) 30%, transparent 76%),
+    radial-gradient(88% 66% at 74% 44%, #1E3E62 0%, #1E3E62 38%, rgba(30, 62, 98, 0.55) 62%, transparent 82%),
+    radial-gradient(80% 60% at 20% 20%, #0B192C 0%, transparent 72%),
+    #0B192C;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 18px 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Typography & Hero
+   ========================================================================== */
+.bar {
+  height: 5px;
+  width: 72px;
+  border-radius: 5px;
+  background: var(--accent);
+  margin: 0 0 16px;
+}
+
+.lead {
+  color: var(--ink);
+  font-size: clamp(1.2rem, 3.6vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.7;
+  margin: 0 0 26px;
+  max-width: 36em;
+}
+
+.hero {
+  min-height: calc(100vh - 210px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 8.6vw, 5.6rem);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  direction: ltr;
+  text-transform: uppercase;
+}
+
+.hero .bar {
+  margin: 22px 0 20px;
+}
+
+.about {
+  color: var(--muted);
+  max-width: 40em;
+  margin: 0;
+  font-size: clamp(1rem, 2.6vw, 1.15rem);
+  white-space: pre-line;
+}
+
+/* ==========================================================================
+   Filter Chips
+   ========================================================================== */
+.flt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.chip {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.35);
+  font-weight: 700;
+  color: var(--ink);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip small {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+
+.chip[aria-pressed="true"] small {
+  color: #000;
+}
+
+.chip:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Portfolio Grids & Cards
+   ========================================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.grid-empty {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  margin: 0;
+}
+
+.card {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  background: var(--deep);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent);
+}
+
+.card:focus-visible,
+.dock button:focus-visible,
+.close:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.thumb svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dthumb {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.meta {
+  display: block;
+  padding: 12px 14px 14px;
+}
+
+.meta b {
+  display: block;
+  font-weight: 700;
+}
+
+.meta span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.pgrid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px 18px;
+}
+
+.pcard {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+}
+
+.pcard .poster {
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.pcard .poster svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pcard:hover .poster {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.pcard:focus-visible .poster {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.cap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.badge {
+  flex: none;
+  background: var(--accent);
+  color: #000;
+  font-weight: 800;
+  font-size: 0.74rem;
+  padding: 1px 11px;
+  border-radius: 999px;
+  line-height: 1.8;
+  margin-top: 2px;
+}
+
+.cap b {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.poster,
+.thumb {
+  position: relative;
+}
+
+.poster img,
+.poster video,
+.thumb img,
+.thumb video,
+.ath img,
+.ath video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster img[data-yt],
+.thumb img[data-yt] {
+  position: absolute;
+  inset: 0;
+}
+
+.pl {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.pl i {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.pl em {
+  position: absolute;
+  bottom: 10px;
+  inset-inline-start: 10px;
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  color: var(--ink);
+  direction: ltr;
+}
+
+/* ==========================================================================
+   Item Preview Dialog
+   ========================================================================== */
+dialog {
+  margin: auto;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--deep);
+  color: var(--ink);
+  padding: 0;
+  width: min(640px, 92vw);
+  box-shadow: var(--shadow);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.dlg-body {
+  padding: 16px 18px 20px;
+}
+
+.dlg-body h2 {
+  margin: 12px 0 4px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.dlg-body p {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+.dposter {
+  display: block;
+  width: calc(min(56vh, 420px) * 0.8);
+  max-width: 100%;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dposter svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dmedia {
+  display: block;
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #000;
+}
+
+.dframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 12px;
+  background: #000;
+}
+
+.dframe.ig {
+  aspect-ratio: auto;
+  height: min(70vh, 580px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 20px;
+  min-height: 44px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #000;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.close {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  margin-inline-start: 8px;
+  padding: 0 16px;
+}
+
+/* ==========================================================================
+   Bottom Floating Dock
+   ========================================================================== */
+.dock {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(var(--u) * 0.24 + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.dock nav {
+  pointer-events: auto;
+  display: flex;
+  gap: calc(var(--u) * 0.06);
+  padding: calc(var(--u) * 0.11);
+  border-radius: calc(var(--u) * 0.42);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  max-width: calc(100vw - 16px);
+  direction: ltr;
+}
+
+.dock button {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--u) * 0.05);
+  width: var(--u);
+  min-width: 0;
+  flex: 0 1 auto;
+  height: max(46px, calc(var(--u) * 0.9));
+  border-radius: calc(var(--u) * 0.3);
+  color: var(--muted);
+  font-size: max(11px, calc(var(--u) * 0.175));
+  font-weight: 700;
+  line-height: 1.2;
+  transition: transform 0.18s, background 0.18s, color 0.18s;
+}
+
+.dock button svg {
+  width: calc(var(--u) * 0.4);
+  height: calc(var(--u) * 0.4);
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.dock button:hover {
+  transform: translateY(calc(var(--u) * -0.07));
+  color: var(--ink);
+}
+
+.dock button[aria-current="page"] {
+  color: var(--accent);
+  background: var(--deep);
+  transform: none;
+  box-shadow: 0 8px 18px rgba(255, 101, 0, 0.28), inset 0 0 0 1px rgba(255, 101, 0, 0.45);
+}
+
+/* ==========================================================================
+   Admin Panel (#admin)
+   ========================================================================== */
+.adm {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.adm h1 {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 18px;
+  direction: ltr;
+}
+
+.tab {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.35);
+  font-weight: 700;
+}
+
+.tab[aria-current] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+
+.aform {
+  display: grid;
+  gap: 12px;
+  background: var(--deep);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.aform b {
+  font-weight: 700;
+}
+
+.aform label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.aform input,
+.aform select {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  font: inherit;
+}
+
+.aform select option {
+  background: var(--deep);
+  color: var(--ink);
+}
+
+.aform input:focus-visible,
+.aform select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.abtn {
+  all: unset;
+  cursor: pointer;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 800;
+}
+
+.ap {
+  display: block;
+  min-height: 1.4em;
+  color: var(--accent);
+  font-size: 0.82rem;
+}
+
+.ast {
+  color: var(--muted);
+  min-height: 1.7em;
+  margin: 12px 0;
+}
+
+.arow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--deep);
+  margin-bottom: 10px;
+}
+
+.ath {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+.ath i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, var(--main), var(--black));
+}
+
+.atx {
+  flex: 1;
+  min-width: 0;
+}
+
+.atx b {
+  display: block;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.atx small {
+  color: var(--muted);
+}
+
+.atx em {
+  font-style: normal;
+  color: var(--accent);
+  font-size: 0.8rem;
+  margin-inline-start: 6px;
+}
+
+.aops {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.aops button {
+  all: unset;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 10px;
+  font-weight: 700;
+}
+
+.aops button[data-a="del"] {
+  color: var(--accent);
+}
+
+.tab:focus-visible,
+.abtn:focus-visible,
+.aops button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

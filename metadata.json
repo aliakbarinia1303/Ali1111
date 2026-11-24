@@ -1,0 +1,6 @@
+{
+  "name": "HONAREMOTEALI Portfolio",
+  "description": "Portfolio — Motion, Design, Video & Web",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
